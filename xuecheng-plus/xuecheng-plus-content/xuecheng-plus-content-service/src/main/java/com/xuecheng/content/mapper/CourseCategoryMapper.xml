@@ -18,4 +18,13 @@
         id, name, label, parentid, is_show, orderby, is_leaf
     </sql>
 
+    <select id="selectTreeNodes" resultType="com.xuecheng.content.model.dto.CourseCategoryTreeDto" parameterType="string">
+        with recursive t as (
+            select t1.* from course_category as t1 where id = #{id}
+            union all
+            select t1.* from course_category as t1 inner join t on t.id =t1.parentid
+        )
+        select * from t order by t.id ,t.orderby
+    </select>
+
 </mapper>

@@ -9,6 +9,7 @@ import com.xuecheng.content.mapper.CourseCategoryMapper;
 import com.xuecheng.content.mapper.CourseMarketMapper;
 import com.xuecheng.content.model.dto.AddCourseDto;
 import com.xuecheng.content.model.dto.CourseBaseInfoDto;
+import com.xuecheng.content.model.dto.EditCourseDto;
 import com.xuecheng.content.model.dto.QueryCourseParamsDto;
 import com.xuecheng.content.model.po.CourseBase;
 import com.xuecheng.content.model.po.CourseCategory;
@@ -19,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -64,6 +66,7 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
      * 新增课程
      * @param addCourseDto
      */
+    @Transactional
     @Override
     public CourseBaseInfoDto addCourse(Long companyId, AddCourseDto addCourseDto) {
 
@@ -102,6 +105,45 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
 
         return courseBaseInfoDto;
     }
+
+    /**
+     * 根据id查询课程
+     * @param courseId
+     * @return
+     */
+    @Override
+    public CourseBaseInfoDto selectById(Long courseId) {
+        CourseBase courseBase = courseBaseMapper.selectById(courseId);
+        CourseMarket courseMarket = courseMarketMapper.selectById(courseId);
+        CourseBaseInfoDto courseBaseInfoDto = new CourseBaseInfoDto();
+        BeanUtils.copyProperties(courseBase,courseBaseInfoDto);
+        BeanUtils.copyProperties(courseMarket,courseBaseInfoDto);
+        CourseCategory courseCategory = courseCategoryMapper.selectById(courseBase.getMt());
+        courseBaseInfoDto.setMtName(courseCategory.getName());
+        courseBaseInfoDto.setStName(courseCategory.getLabel());
+        return courseBaseInfoDto;
+    }
+
+    /**
+     * 修改课程信息
+     * @param companyId
+     * @param editCourseDto
+     * @return
+     */
+    @Override
+    @Transactional
+    public CourseBaseInfoDto updateCourseBase(Long companyId, EditCourseDto editCourseDto) {
+        CourseBase courseBase =new CourseBase();
+        CourseMarket courseMarket = new CourseMarket();
+        BeanUtils.copyProperties(editCourseDto,courseBase);
+        courseBase.setChangeDate(LocalDateTime.now());
+        int i = courseBaseMapper.updateById(courseBase);
+        BeanUtils.copyProperties(editCourseDto,courseMarket);
+        int i1 = savecourseMarket(courseMarket);
+        CourseBaseInfoDto courseBaseInfoDto = this.selectById(editCourseDto.getId());
+        return courseBaseInfoDto;
+    }
+
     //单独写一个营销方法，存在则更新，不存在则添加
     private int savecourseMarket(CourseMarket courseMarket){
         //参数合法性校验（如果课程收费，没有添加价格也要抛异常）

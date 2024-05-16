@@ -1,8 +1,11 @@
 package com.xuecheng.content.mapper;
 
+import com.xuecheng.content.model.dto.TeachplanDto;
 import com.xuecheng.content.model.po.Teachplan;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,5 +15,5 @@ import org.springframework.stereotype.Repository;
  * @author itcast
  */
 public interface TeachplanMapper extends BaseMapper<Teachplan> {
-
+    List<TeachplanDto> selectTreeNodes(Long courseId);
 }

@@ -1,26 +1,48 @@
-server:
-  servlet:
-    context-path: /content
-  port: 63040
+#server:
+#  servlet:
+#    context-path: /content
+#  port: 63040
 #微服务配置
 spring:
   application:
     name: content-api
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.189.128:3306/xc402_content?serverTimezone=UTC&userUnicode=true&useSSL=false&
-    username: root
-    password: LONGHANG0
-mybatis-plus:
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://192.168.189.128:3306/xc402_content?serverTimezone=UTC&userUnicode=true&useSSL=false&
+#    username: root
+#    password: LONGHANG0
+  cloud:
+    nacos:
+      server-addr: 192.168.189.128:8848
+      discovery:  #服务注册相关配置
+        namespace: dev402
+        group: xuecheng-plus-project
+      config: #拉取配置文件相关配置
+        namespace: dev402
+        group: xuecheng-plus-project
+        file-extension: yaml
+        refresh-enabled: true
+        shared-configs:
+          - data-id: swagger-${spring.profiles.active}.yaml
+            group: xuecheng-plus-common
+            refresh: true
+          - data-id: mybatis-plus-${spring.profiles.active}.yaml
+            group: xuecheng-plus-common
+            refresh: true
+  #profiles默认为dev
+  profiles:
+    active: dev
+
+#mybatis-plus:
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 # 日志文件配置路径
 #logging:
 #  config: classpath:log4j2-dev.xml
 
-swagger:
-  title: "学成在线内容管理系统"
-  description: "内容系统管理系统对课程相关信息进行管理"
-  base-package: com.xuecheng.content
-  enabled: true
-  version: 1.0.0
+#swagger:
+#  title: "学成在线内容管理系统"
+#  description: "内容系统管理系统对课程相关信息进行管理"
+#  base-package: com.xuecheng.content
+#  enabled: true
+#  version: 1.0.0

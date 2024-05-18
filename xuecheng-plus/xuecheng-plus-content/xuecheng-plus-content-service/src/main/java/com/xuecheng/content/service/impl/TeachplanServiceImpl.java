@@ -1,9 +1,12 @@
 package com.xuecheng.content.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.xuecheng.base.exception.XueChengPlusException;
 import com.xuecheng.content.mapper.TeachplanMapper;
+import com.xuecheng.content.mapper.TeachplanMediaMapper;
 import com.xuecheng.content.model.dto.TeachplanDto;
 import com.xuecheng.content.model.po.Teachplan;
+import com.xuecheng.content.model.po.TeachplanMedia;
 import com.xuecheng.content.service.TeachplanService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +25,8 @@ public class TeachplanServiceImpl implements TeachplanService {
 
     private final TeachplanMapper teachplanMapper;
 
+    private final TeachplanMediaMapper teachplanMediaMapper;
+
     /**
      * 查询课程计划树型结构
      * @param courseId
@@ -30,6 +35,7 @@ public class TeachplanServiceImpl implements TeachplanService {
     @Override
     public List<TeachplanDto> findTeachplanTree(Long courseId) {
         List<TeachplanDto> teachplanDtos = teachplanMapper.selectTreeNodes(courseId);
+
         return teachplanDtos;
     }
 
@@ -58,7 +64,6 @@ public class TeachplanServiceImpl implements TeachplanService {
             teachplanMapper.updateById(teachplan);
         }
     }
-
     //获得最新排序
     private int getTeachplanCount(long courseId,long parentId){
         LambdaQueryWrapper<Teachplan> queryWrapper = new LambdaQueryWrapper<>();
@@ -67,5 +72,59 @@ public class TeachplanServiceImpl implements TeachplanService {
         Integer count = teachplanMapper.selectCount(queryWrapper);
         return count;
     }
+
+
+    /**
+     * 课程计划删除
+     * @param id
+     */
+    @Override
+    @Transactional
+    public void deleteTeachplan(Long id) {
+        Teachplan teachplan = teachplanMapper.selectById(id);
+        //删除第一级别的大章节时要求大章节下边没有小章节时方可删除。
+        if (teachplan.getGrade()==1){
+            List<TeachplanDto> teachplanDtos = teachplanMapper.selectTreeNode(id);
+            if (teachplanDtos.size()!=0){
+                throw new XueChengPlusException("课程计划信息还有子级信息，无法操作");
+            }else {
+                teachplanMapper.deleteById(id);
+            }
+        }else if(teachplan.getGrade()==2){
+            //删除第二级别的小章节的同时需要将teachplan_media表关联的信息也删除。
+            teachplanMapper.deleteById(id);
+            LambdaQueryWrapper<TeachplanMedia> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(TeachplanMedia::getTeachplanId,id);
+            teachplanMediaMapper.delete(queryWrapper);
+        }
+
+
+
+    }
+
+    /**
+     * 课程计划排序（向上移动）
+     * @param id
+     */
+    @Transactional
+    @Override
+    public void sortMoveupTeachplan(Long id) {
+        Teachplan teachplan = teachplanMapper.selectById(id);
+        teachplan.setOrderby(teachplan.getOrderby()-1);
+        teachplanMapper.updateById(teachplan);
+    }
+
+    /**
+     * 课程计划排序（向下移动）
+     * @param id
+     */
+    @Transactional
+    @Override
+    public void sortMovedownTeachplan(Long id) {
+        Teachplan teachplan = teachplanMapper.selectById(id);
+        teachplan.setOrderby(teachplan.getOrderby()+1);
+        teachplanMapper.updateById(teachplan);
+    }
+
 
 }

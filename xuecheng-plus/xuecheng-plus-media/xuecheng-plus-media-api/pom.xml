@@ -11,6 +11,12 @@
     <name>xuecheng-plus-media-api</name>
     <description>xuecheng-plus-media-api</description>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.xuecheng</groupId>
+            <artifactId>xuecheng-plus-media-service</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     <!--nacos注册发现依赖-->
     <dependency>
         <groupId>com.alibaba.cloud</groupId>
@@ -22,7 +28,7 @@
         <artifactId>httpclient</artifactId>
         <version>4.5.3</version>
     </dependency>
-    <!--        nacos配置依赖-->
+    <!--nacos配置依赖-->
     <dependency>
         <groupId>com.alibaba.cloud</groupId>
         <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
@@ -38,6 +44,11 @@
         <artifactId>spring-boot-starter-web</artifactId>
         <version>2.3.3.RELEASE</version>
     </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework</groupId>-->
+<!--            <artifactId>spring-core</artifactId>-->
+<!--            <version>5.3.6</version>-->
+<!--        </dependency>-->
     <!-- mySQL数据库驱动包管理 -->
     <dependency>
         <groupId>mysql</groupId>
@@ -73,6 +84,24 @@
         <artifactId>swagger-spring-boot-starter</artifactId>
         <version>1.9.0.RELEASE</version>
     </dependency>
+        <dependency>
+            <groupId>com.xuecheng</groupId>
+            <artifactId>xuecheng-plus-base</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.xuecheng</groupId>
+            <artifactId>xuecheng-plus-media-model</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.xuecheng</groupId>
+            <artifactId>xuecheng-plus-media-service</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
 
 
     </dependencies>

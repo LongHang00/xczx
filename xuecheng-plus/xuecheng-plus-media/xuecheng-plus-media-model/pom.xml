@@ -8,8 +8,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <artifactId>xuecheng-plus-media-model</artifactId>
-    <name>xuecheng-plus-media-model</name>
-    <description>xuecheng-plus-media-model</description>
+
 
     <dependencies>
         <dependency>

@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Mp4VideoUtil extends VideoUtil {
 
-    String ffmpeg_path = "D:\\Program Files\\ffmpeg-20180227-fa0c9d6-win64-static\\bin\\ffmpeg.exe";//ffmpeg的安装位置
+    String ffmpeg_path = "D:\\xczx\\学成在线项目—资料\\day06 断点续传 xxl-job\\资料\\ffmpeg\\ffmpeg.exe";//ffmpeg的安装位置
     String video_path = "D:\\BaiduNetdiskDownload\\test1.avi";
     String mp4_name = "test1.mp4";
     String mp4folder_path = "D:/BaiduNetdiskDownload/Movies/test1/";
@@ -83,7 +83,7 @@ public class Mp4VideoUtil extends VideoUtil {
 
     public static void main(String[] args) throws IOException {
         //ffmpeg的路径
-        String ffmpeg_path = "D:\\soft\\ffmpeg\\ffmpeg.exe";//ffmpeg的安装位置
+        String ffmpeg_path = "D:\\xczx\\学成在线项目—资料\\day06 断点续传 xxl-job\\资料\\ffmpeg\\ffmpeg.exe";//ffmpeg的安装位置
         //源avi视频的路径
         String video_path = "D:\\develop\\bigfile_test\\nacos01.avi";
         //转换后mp4文件的名称

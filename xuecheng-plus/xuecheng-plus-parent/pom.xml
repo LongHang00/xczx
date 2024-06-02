@@ -132,11 +132,11 @@
                 <version>${commons-lang.version}</version>
             </dependency>
             <!-- 分布式文件系统 minIO的客户端API包 -->
-            <!--            <dependency>-->
-            <!--                <groupId>io.minio</groupId>-->
-            <!--                <artifactId>minio</artifactId>-->
-            <!--                <version>${minio.version}</version>-->
-            <!--            </dependency>-->
+                        <dependency>
+                            <groupId>io.minio</groupId>
+                            <artifactId>minio</artifactId>
+                            <version>${minio.version}</version>
+                        </dependency>
             <!--google推荐的一套工具类库-->
             <!--            <dependency>-->
             <!--                <groupId>com.google.guava</groupId>-->
@@ -144,11 +144,11 @@
             <!--                <version>29.0-jre</version>-->
             <!--            </dependency>-->
             <!--分布式任务调度-->
-            <!--            <dependency>-->
-            <!--                <groupId>com.xuxueli</groupId>-->
-            <!--                <artifactId>xxl-job-core</artifactId>-->
-            <!--                <version>${xxl-job-core.version}</version>-->
-            <!--            </dependency>-->
+                        <dependency>
+                            <groupId>com.xuxueli</groupId>
+                            <artifactId>xxl-job-core</artifactId>
+                            <version>${xxl-job-core.version}</version>
+                        </dependency>
             <!--Spring boot单元测试-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>

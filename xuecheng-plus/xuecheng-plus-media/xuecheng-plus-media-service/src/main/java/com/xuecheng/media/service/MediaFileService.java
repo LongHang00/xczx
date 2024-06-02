@@ -9,6 +9,7 @@ import com.xuecheng.media.model.po.MediaFiles;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -38,9 +39,9 @@ public interface MediaFileService {
      */
     UploadFileParamsDto uploadFile(Long companyId, UploadFileParamsDto uploadFileParamsDto, String localFilePath);
 
-
     /**
      * 检查上传文件
+     *
      * @param fileMd5
      * @return
      */
@@ -48,32 +49,36 @@ public interface MediaFileService {
 
     /**
      * 检查上传分块文件
+     *
      * @param fileMd5
      * @param chunk
      * @return
      */
-    RestResponse<Boolean> checkchunk(String fileMd5,int chunk);
+    RestResponse<Boolean> checkchunk(String fileMd5, int chunk);
 
     /**
      * 上传分块文件
+     *
      * @param file
      * @param fileMd5
      * @param chunk
      * @return
      */
-    RestResponse uploadchunk(MultipartFile file,String fileMd5,int chunk);
+    RestResponse uploadchunk(MultipartFile file, String fileMd5, int chunk);
 
     /**
      * 合并上传文件
+     *
      * @param fileMd5
      * @param chunkTotal
      * @param uploadFileParamsDto
      * @return
      */
-    RestResponse mergechunks(Long companyId,String fileMd5,UploadFileParamsDto uploadFileParamsDto,int chunkTotal);
+    RestResponse mergechunks(Long companyId, String fileMd5, UploadFileParamsDto uploadFileParamsDto, int chunkTotal);
 
     /**
      * 将数据保存到数据库中
+     *
      * @param companyId
      * @param fileMd5
      * @param uploadFileParamsDto
@@ -82,4 +87,13 @@ public interface MediaFileService {
      * @return
      */
     MediaFiles addMediaFilesToDb(Long companyId, String fileMd5, UploadFileParamsDto uploadFileParamsDto, String files, String objectName);
+
+    //下载文件
+    File downloadFileFromMinIO(String bucket, String objectName);
+
+    //上传文件
+    boolean addMediaFilesToMinIO(String localFilePath, String mimeType, String bucket, String objectName);
+
+    //获取媒资信息
+    MediaFiles getFileById (String mediaId);
 }
